@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shivam Wagh — Full Stack Developer & AI Engineer</title>
+<meta name="description" content="Shivam Wagh — Full Stack Developer specializing in .NET, React, Blazor, Azure, and AI-powered enterprise applications. 3+ years building scalable web solutions.">
+<meta name="keywords" content="Shivam Wagh, Full Stack Developer, .NET Developer, React Developer, Azure, AI Engineer, Blazor, Portfolio">
+<meta property="og:title" content="Shivam Wagh — Full Stack Developer & AI Engineer">
+<meta property="og:description" content="Building scalable, AI-powered enterprise applications with .NET, React, and Azure.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0a0a0b;
+  --bg-elevated: #111113;
+  --bg-card: #161618;
+  --bg-card-hover: #1c1c1f;
+  --border: #222225;
+  --border-light: #2a2a2e;
+  --text: #e8e8ec;
+  --text-secondary: #8b8b95;
+  --text-muted: #5c5c66;
+  --accent: #6ee7b7;
+  --accent-dim: rgba(110, 231, 183, 0.12);
+  --accent-glow: rgba(110, 231, 183, 0.06);
+  --blue: #60a5fa;
+  --purple: #c084fc;
+  --amber: #fbbf24;
+  --font-display: 'Instrument Serif', Georgia, serif;
+  --font-body: 'DM Sans', -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection { background: var(--accent); color: var(--bg); }
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 3px; }
+
+/* ---- NAV ---- */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 1rem 2rem;
+  background: rgba(10, 10, 11, 0.8);
+  backdrop-filter: blur(20px) saturate(1.4);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.3s, padding 0.3s;
+}
+nav.scrolled { border-bottom-color: var(--border); padding: 0.75rem 2rem; }
+.nav-inner {
+  max-width: 1200px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.nav-logo {
+  font-family: var(--font-display); font-size: 1.5rem; color: var(--text);
+  text-decoration: none; letter-spacing: -0.02em;
+}
+.nav-logo span { color: var(--accent); }
+.nav-links { display: flex; gap: 2rem; list-style: none; }
+.nav-links a {
+  color: var(--text-secondary); text-decoration: none; font-size: 0.875rem;
+  font-weight: 500; letter-spacing: 0.02em; text-transform: uppercase;
+  transition: color 0.2s; position: relative;
+}
+.nav-links a::after {
+  content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px;
+  background: var(--accent); transition: width 0.3s;
+}
+.nav-links a:hover { color: var(--text); }
+.nav-links a:hover::after { width: 100%; }
+
+.hamburger {
+  display: none; background: none; border: none; cursor: pointer; padding: 4px;
+  flex-direction: column; gap: 5px;
+}
+.hamburger span {
+  display: block; width: 22px; height: 1.5px; background: var(--text);
+  transition: all 0.3s;
+}
+
+@media (max-width: 768px) {
+  .hamburger { display: flex; }
+  .nav-links {
+    position: fixed; top: 0; right: -100%; width: 70%; height: 100vh;
+    background: var(--bg-elevated); flex-direction: column; padding: 5rem 2rem;
+    gap: 1.5rem; transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border-left: 1px solid var(--border);
+  }
+  .nav-links.open { right: 0; }
+  .nav-links a { font-size: 1rem; }
+}
+
+/* ---- SHARED ---- */
+.container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+section { padding: 7rem 0; }
+.section-label {
+  font-family: var(--font-mono); font-size: 0.75rem; color: var(--accent);
+  text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 1rem;
+  display: flex; align-items: center; gap: 0.75rem;
+}
+.section-label::before {
+  content: ''; display: block; width: 24px; height: 1px; background: var(--accent);
+}
+.section-title {
+  font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3.2rem);
+  line-height: 1.15; letter-spacing: -0.03em; margin-bottom: 1.5rem;
+}
+
+/* ---- HERO ---- */
+.hero {
+  min-height: 100vh; display: flex; align-items: center;
+  position: relative; overflow: hidden;
+}
+.hero-bg {
+  position: absolute; inset: 0; z-index: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 20% 50%, rgba(110,231,183,0.06), transparent),
+    radial-gradient(ellipse 40% 40% at 80% 30%, rgba(96,165,250,0.04), transparent);
+}
+.hero-grid {
+  position: absolute; inset: 0; z-index: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, black, transparent);
+}
+.hero .container { position: relative; z-index: 1; }
+.hero-status {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.4rem 1rem; border-radius: 100px;
+  background: var(--accent-dim); border: 1px solid rgba(110,231,183,0.15);
+  font-size: 0.8rem; color: var(--accent); margin-bottom: 2rem;
+  font-weight: 500;
+}
+.hero-status .dot {
+  width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
+  animation: pulse-dot 2s infinite;
+}
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(110,231,183,0.4); }
+  50% { opacity: 0.7; box-shadow: 0 0 0 6px rgba(110,231,183,0); }
+}
+.hero h1 {
+  font-family: var(--font-display); font-size: clamp(3rem, 8vw, 5.5rem);
+  line-height: 1.05; letter-spacing: -0.04em; margin-bottom: 1.5rem;
+  max-width: 800px;
+}
+.hero h1 em {
+  font-style: italic; color: var(--accent);
+  background: linear-gradient(135deg, var(--accent), var(--blue));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-desc {
+  font-size: 1.15rem; color: var(--text-secondary); max-width: 560px;
+  line-height: 1.7; margin-bottom: 2.5rem;
+}
+.hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+.btn {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.8rem 1.8rem; border-radius: 8px; font-size: 0.9rem;
+  font-weight: 500; text-decoration: none; transition: all 0.25s;
+  cursor: pointer; border: none; font-family: var(--font-body);
+}
+.btn-primary {
+  background: var(--accent); color: var(--bg);
+  box-shadow: 0 0 20px rgba(110,231,183,0.15);
+}
+.btn-primary:hover {
+  box-shadow: 0 0 30px rgba(110,231,183,0.25); transform: translateY(-1px);
+}
+.btn-ghost {
+  background: transparent; color: var(--text); border: 1px solid var(--border-light);
+}
+.btn-ghost:hover { border-color: var(--text-secondary); background: var(--bg-card); }
+
+.hero-stats {
+  display: flex; gap: 3rem; margin-top: 4rem; padding-top: 2.5rem;
+  border-top: 1px solid var(--border);
+}
+.hero-stats .stat-num {
+  font-family: var(--font-display); font-size: 2.2rem; color: var(--text);
+  letter-spacing: -0.03em;
+}
+.hero-stats .stat-label {
+  font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase;
+  letter-spacing: 0.08em; margin-top: 0.25rem;
+}
+
+/* ---- ABOUT ---- */
+#about { border-top: 1px solid var(--border); }
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+.about-text { font-size: 1.05rem; color: var(--text-secondary); line-height: 1.8; }
+.about-text p + p { margin-top: 1rem; }
+.about-highlights {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 2rem;
+}
+.highlight-card {
+  padding: 1.25rem; border-radius: 10px; background: var(--bg-card);
+  border: 1px solid var(--border);
+}
+.highlight-card .hl-icon { font-size: 1.4rem; margin-bottom: 0.5rem; }
+.highlight-card .hl-title { font-weight: 600; font-size: 0.9rem; margin-bottom: 0.25rem; }
+.highlight-card .hl-desc { font-size: 0.8rem; color: var(--text-muted); }
+
+/* ---- SKILLS ---- */
+#skills { border-top: 1px solid var(--border); }
+.skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.25rem; }
+.skill-group {
+  padding: 1.75rem; border-radius: 12px; background: var(--bg-card);
+  border: 1px solid var(--border); transition: all 0.3s;
+}
+.skill-group:hover { border-color: var(--border-light); background: var(--bg-card-hover); }
+.skill-group-header {
+  display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem;
+}
+.skill-group-icon {
+  width: 36px; height: 36px; border-radius: 8px; display: flex;
+  align-items: center; justify-content: center; font-size: 1.1rem;
+}
+.skill-group-name { font-weight: 600; font-size: 0.95rem; }
+.skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.skill-tag {
+  padding: 0.3rem 0.75rem; border-radius: 6px; font-size: 0.78rem;
+  background: rgba(255,255,255,0.04); color: var(--text-secondary);
+  border: 1px solid rgba(255,255,255,0.06); font-family: var(--font-mono);
+}
+
+/* ---- EXPERIENCE ---- */
+#experience { border-top: 1px solid var(--border); }
+.timeline { position: relative; padding-left: 2rem; }
+.timeline::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 1px;
+  background: linear-gradient(to bottom, var(--accent), var(--border), transparent);
+}
+.timeline-item { position: relative; padding-bottom: 3rem; }
+.timeline-item:last-child { padding-bottom: 0; }
+.timeline-dot {
+  position: absolute; left: -2rem; top: 0.35rem;
+  width: 9px; height: 9px; border-radius: 50%;
+  background: var(--accent); transform: translateX(-4px);
+  box-shadow: 0 0 10px rgba(110,231,183,0.3);
+}
+.timeline-date {
+  font-family: var(--font-mono); font-size: 0.75rem; color: var(--accent);
+  text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.5rem;
+}
+.timeline-role { font-size: 1.2rem; font-weight: 600; margin-bottom: 0.25rem; }
+.timeline-company { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 1rem; }
+.timeline-desc {
+  color: var(--text-secondary); font-size: 0.9rem; line-height: 1.7;
+}
+.timeline-desc li { margin-bottom: 0.4rem; list-style: none; padding-left: 1.2rem; position: relative; }
+.timeline-desc li::before {
+  content: '→'; position: absolute; left: 0; color: var(--accent); font-size: 0.8rem;
+}
+
+/* ---- PROJECTS ---- */
+#projects { border-top: 1px solid var(--border); }
+.projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 1.25rem; }
+.project-card {
+  padding: 2rem; border-radius: 12px; background: var(--bg-card);
+  border: 1px solid var(--border); transition: all 0.35s;
+  position: relative; overflow: hidden;
+}
+.project-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--blue)); opacity: 0;
+  transition: opacity 0.3s;
+}
+.project-card:hover { border-color: var(--border-light); transform: translateY(-2px); }
+.project-card:hover::before { opacity: 1; }
+.project-num {
+  font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-muted);
+  margin-bottom: 1rem; letter-spacing: 0.1em;
+}
+.project-name { font-size: 1.2rem; font-weight: 600; margin-bottom: 0.5rem; }
+.project-client { font-size: 0.8rem; color: var(--accent); margin-bottom: 0.75rem; font-family: var(--font-mono); }
+.project-desc {
+  font-size: 0.88rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.25rem;
+}
+.project-tech { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.project-tech span {
+  padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.72rem;
+  background: rgba(255,255,255,0.04); color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+
+/* ---- AI SECTION ---- */
+#ai { border-top: 1px solid var(--border); position: relative; }
+.ai-glow {
+  position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  width: 600px; height: 300px;
+  background: radial-gradient(ellipse, rgba(192,132,252,0.06), transparent 70%);
+  pointer-events: none;
+}
+.ai-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+.ai-card {
+  padding: 2rem; border-radius: 12px; background: var(--bg-card);
+  border: 1px solid var(--border); transition: all 0.3s;
+}
+.ai-card:hover { border-color: var(--border-light); }
+.ai-card.featured {
+  grid-column: 1 / -1;
+  background: linear-gradient(135deg, var(--bg-card), rgba(192,132,252,0.04));
+  border-color: rgba(192,132,252,0.15);
+}
+.ai-card-label {
+  font-family: var(--font-mono); font-size: 0.7rem; color: var(--purple);
+  text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 0.75rem;
+}
+.ai-card-title { font-size: 1.15rem; font-weight: 600; margin-bottom: 0.75rem; }
+.ai-card-desc { font-size: 0.88rem; color: var(--text-secondary); line-height: 1.7; }
+.ai-tech-list { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+.ai-tech-list span {
+  padding: 0.3rem 0.75rem; border-radius: 6px; font-size: 0.75rem;
+  background: rgba(192,132,252,0.08); color: var(--purple);
+  border: 1px solid rgba(192,132,252,0.12); font-family: var(--font-mono);
+}
+.exploring-list { margin-top: 1rem; }
+.exploring-item {
+  display: flex; align-items: center; gap: 0.75rem; padding: 0.6rem 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.exploring-item:last-child { border-bottom: none; }
+.exploring-dot {
+  width: 6px; height: 6px; border-radius: 50%; background: var(--purple);
+  flex-shrink: 0;
+}
+.exploring-item span { font-size: 0.88rem; color: var(--text-secondary); }
+
+/* ---- CERTIFICATIONS ---- */
+#certs { border-top: 1px solid var(--border); }
+.certs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; }
+.cert-card {
+  padding: 1.25rem 1.5rem; border-radius: 10px; background: var(--bg-card);
+  border: 1px solid var(--border); display: flex; align-items: start; gap: 1rem;
+  transition: all 0.3s;
+}
+.cert-card:hover { border-color: var(--border-light); }
+.cert-badge {
+  width: 36px; height: 36px; border-radius: 8px; display: flex;
+  align-items: center; justify-content: center; font-size: 0.75rem;
+  font-weight: 700; flex-shrink: 0; font-family: var(--font-mono);
+}
+.cert-badge.udemy { background: rgba(192,132,252,0.1); color: var(--purple); }
+.cert-badge.coursera { background: rgba(96,165,250,0.1); color: var(--blue); }
+.cert-badge.gl { background: rgba(110,231,183,0.1); color: var(--accent); }
+.cert-badge.ms { background: rgba(251,191,36,0.1); color: var(--amber); }
+.cert-name { font-size: 0.88rem; font-weight: 500; }
+.cert-issuer { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.2rem; }
+
+/* ---- CONTACT ---- */
+#contact {
+  border-top: 1px solid var(--border);
+  text-align: center; padding: 8rem 0;
+}
+#contact .section-label { justify-content: center; }
+#contact .section-label::before { display: none; }
+#contact .section-title { max-width: 600px; margin: 0 auto 1.5rem; }
+.contact-desc { color: var(--text-secondary); font-size: 1.05rem; max-width: 480px; margin: 0 auto 2.5rem; }
+.contact-links { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+.contact-link {
+  display: inline-flex; align-items: center; gap: 0.6rem; padding: 0.75rem 1.5rem;
+  border-radius: 8px; background: var(--bg-card); border: 1px solid var(--border);
+  color: var(--text); text-decoration: none; font-size: 0.9rem; font-weight: 500;
+  transition: all 0.25s;
+}
+.contact-link:hover { border-color: var(--accent); background: var(--accent-dim); color: var(--accent); }
+.contact-link svg { width: 18px; height: 18px; }
+
+/* ---- FOOTER ---- */
+footer {
+  border-top: 1px solid var(--border); padding: 2rem 0; text-align: center;
+  font-size: 0.8rem; color: var(--text-muted);
+}
+
+/* ---- ANIMATIONS ---- */
+.fade-in {
+  opacity: 0; transform: translateY(24px);
+  transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.fade-in.visible { opacity: 1; transform: none; }
+.stagger-1 { transition-delay: 0.05s; }
+.stagger-2 { transition-delay: 0.1s; }
+.stagger-3 { transition-delay: 0.15s; }
+.stagger-4 { transition-delay: 0.2s; }
+.stagger-5 { transition-delay: 0.25s; }
+
+/* ---- RESPONSIVE ---- */
+@media (max-width: 768px) {
+  section { padding: 4rem 0; }
+  .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+  .ai-grid { grid-template-columns: 1fr; }
+  .projects-grid { grid-template-columns: 1fr; }
+  .hero-stats { gap: 2rem; flex-wrap: wrap; }
+  .hero-stats .stat-num { font-size: 1.8rem; }
+  .hero h1 { font-size: clamp(2.4rem, 8vw, 4rem); }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">sw<span>.</span></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#about" onclick="closeNav()">About</a></li>
+      <li><a href="#skills" onclick="closeNav()">Skills</a></li>
+      <li><a href="#experience" onclick="closeNav()">Experience</a></li>
+      <li><a href="#projects" onclick="closeNav()">Projects</a></li>
+      <li><a href="#ai" onclick="closeNav()">AI Work</a></li>
+      <li><a href="#contact" onclick="closeNav()">Contact</a></li>
+    </ul>
+    <button class="hamburger" onclick="toggleNav()" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="container">
+    <div class="hero-status fade-in"><span class="dot"></span> Open to opportunities</div>
+    <h1 class="fade-in stagger-1">Building <em>intelligent</em> software that scales.</h1>
+    <p class="hero-desc fade-in stagger-2">I'm Shivam Wagh — a Full Stack Developer and AI Engineer crafting enterprise-grade applications with .NET, React, Blazor, and Azure cloud. I bridge the gap between robust engineering and intelligent automation.</p>
+    <div class="hero-actions fade-in stagger-3">
+      <a href="#projects" class="btn btn-primary">View Projects ↓</a>
+      <a href="#contact" class="btn btn-ghost">Get In Touch</a>
+    </div>
+    <div class="hero-stats fade-in stagger-4">
+      <div>
+        <div class="stat-num">3+</div>
+        <div class="stat-label">Years Experience</div>
+      </div>
+      <div>
+        <div class="stat-num">5+</div>
+        <div class="stat-label">Enterprise Projects</div>
+      </div>
+      <div>
+        <div class="stat-num">10+</div>
+        <div class="stat-label">Certifications</div>
+      </div>
+      <div>
+        <div class="stat-num">AI</div>
+        <div class="stat-label">Certified (AI-900, AI-102)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div>
+        <div class="section-label fade-in">About</div>
+        <h2 class="section-title fade-in stagger-1">Developer. Engineer.<br>Problem Solver.</h2>
+        <div class="about-text fade-in stagger-2">
+          <p>I'm a Full Stack Developer at Arieotech Solutions in Pune, where I design and ship enterprise-grade web applications for global clients across insurance, data platforms, and corporate technology domains.</p>
+          <p>My core strength is combining strong backend engineering with .NET and Web APIs alongside modern frontends in Blazor and React — delivering end-to-end solutions that are reliable, maintainable, and built for scale. Beyond traditional development, I actively integrate AI capabilities using Azure OpenAI and Document Intelligence, enabling smarter automation and data-driven decision making.</p>
+          <p>I hold Microsoft Azure AI certifications (AI-900 & AI-102) and am currently pursuing my MCA at Suryadatta College. When I'm not coding, I'm exploring the latest in LLM architectures, vector databases, and agentic AI systems.</p>
+        </div>
+      </div>
+      <div>
+        <div class="about-highlights fade-in stagger-3">
+          <div class="highlight-card">
+            <div class="hl-icon">⚡</div>
+            <div class="hl-title">Full Stack Expertise</div>
+            <div class="hl-desc">.NET, React, Blazor — end-to-end application development</div>
+          </div>
+          <div class="highlight-card">
+            <div class="hl-icon">☁️</div>
+            <div class="hl-title">Azure Cloud</div>
+            <div class="hl-desc">Functions, DevOps, App Services, AD, Key Vault</div>
+          </div>
+          <div class="highlight-card">
+            <div class="hl-icon">🤖</div>
+            <div class="hl-title">AI Integration</div>
+            <div class="hl-desc">Azure OpenAI, Document Intelligence, LangChain, Vector DBs</div>
+          </div>
+          <div class="highlight-card">
+            <div class="hl-icon">🏆</div>
+            <div class="hl-title">TechStar Awardee</div>
+            <div class="hl-desc">Recognized for outstanding performance and client impact</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="container">
+    <div class="section-label fade-in">Expertise</div>
+    <h2 class="section-title fade-in stagger-1">Technical Skills</h2>
+    <div class="skills-grid">
+      <div class="skill-group fade-in stagger-2">
+        <div class="skill-group-header">
+          <div class="skill-group-icon" style="background:rgba(96,165,250,0.1);color:var(--blue);">🎨</div>
+          <div class="skill-group-name">Frontend</div>
+        </div>
+        <div class="skill-tags">
+          <span class="skill-tag">React.js</span>
+          <span class="skill-tag">Blazor</span>
+          <span class="skill-tag">Radzen</span>
+          <span class="skill-tag">HTML5</span>
+          <span class="skill-tag">CSS3</span>
+          <span class="skill-tag">Tailwind</span>
+          <span class="skill-tag">Bootstrap</span>
+          <span class="skill-tag">KendoUI</span>
+          <span class="skill-tag">Redux</span>
+        </div>
+      </div>
+      <div class="skill-group fade-in stagger-3">
+        <div class="skill-group-header">
+          <div class="skill-group-icon" style="background:rgba(110,231,183,0.1);color:var(--accent);">⚙️</div>
+          <div class="skill-group-name">Backend</div>
+        </div>
+        <div class="skill-tags">
+          <span class="skill-tag">.NET Core</span>
+          <span class="skill-tag">C#</span>
+          <span class="skill-tag">REST APIs</span>
+          <span class="skill-tag">Python</span>
+          <span class="skill-tag">FastAPI</span>
+          <span class="skill-tag">Web API</span>
+        </div>
+      </div>
+      <div class="skill-group fade-in stagger-4">
+        <div class="skill-group-header">
+          <div class="skill-group-icon" style="background:rgba(251,191,36,0.1);color:var(--amber);">🗄️</div>
+          <div class="skill-group-name">Database</div>
+        </div>
+        <div class="skill-tags">
+          <span class="skill-tag">SQL Server</span>
+          <span class="skill-tag">PostgreSQL</span>
+          <span class="skill-tag">Vector DB</span>
+          <span class="skill-tag">SSMS</span>
+          <span class="skill-tag">pgAdmin</span>
+        </div>
+      </div>
+      <div class="skill-group fade-in stagger-2">
+        <div class="skill-group-header">
+          <div class="skill-group-icon" style="background:rgba(192,132,252,0.1);color:var(--purple);">☁️</div>
+          <div class="skill-group-name">Cloud & DevOps</div>
+        </div>
+        <div class="skill-tags">
+          <span class="skill-tag">Azure</span>
+          <span class="skill-tag">Azure Functions</span>
+          <span class="skill-tag">Azure DevOps</span>
+          <span class="skill-tag">AWS Lambda</span>
+          <span class="skill-tag">CI/CD</span>
+          <span class="skill-tag">Azure AD</span>
+          <span class="skill-tag">Key Vault</span>
+          <span class="skill-tag">App Insights</span>
+        </div>
+      </div>
+      <div class="skill-group fade-in stagger-3">
+        <div class="skill-group-header">
+          <div class="skill-group-icon" style="background:rgba(192,132,252,0.1);color:var(--purple);">🤖</div>
+          <div class="skill-group-name">AI / ML</div>
+        </div>
+        <div class="skill-tags">
+          <span class="skill-tag">Azure OpenAI</span>
+          <span class="skill-tag">LangChain</span>
+          <span class="skill-tag">Semantic Kernel</span>
+          <span class="skill-tag">Document Intelligence</span>
+          <span class="skill-tag">Vector Search</span>
+          <span class="skill-tag">OpenAI API</span>
+        </div>
+      </div>
+      <div class="skill-group fade-in stagger-4">
+        <div class="skill-group-header">
+          <div class="skill-group-icon" style="background:rgba(110,231,183,0.1);color:var(--accent);">🔧</div>
+          <div class="skill-group-name">Tools & Practices</div>
+        </div>
+        <div class="skill-tags">
+          <span class="skill-tag">Git</span>
+          <span class="skill-tag">VS Code</span>
+          <span class="skill-tag">Visual Studio</span>
+          <span class="skill-tag">Jira</span>
+          <span class="skill-tag">Agile/Scrum</span>
+          <span class="skill-tag">RBAC</span>
+          <span class="skill-tag">Code Review</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="container">
+    <div class="section-label fade-in">Career</div>
+    <h2 class="section-title fade-in stagger-1">Professional Experience</h2>
+    <div class="timeline fade-in stagger-2">
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-date">April 2025 — Present</div>
+        <div class="timeline-role">Technology Associate</div>
+        <div class="timeline-company">Arieotech Solutions Pvt. Ltd, Pune</div>
+        <div class="timeline-desc">
+          <ul>
+            <li>Integrating AI-driven capabilities into enterprise apps using Azure OpenAI and Document Intelligence for intelligent automation</li>
+            <li>Designing scalable AI solutions informed by Microsoft Azure AI certifications (AI-900, AI-102)</li>
+            <li>Driving innovation by exploring emerging AI technologies and delivering enhanced business value</li>
+          </ul>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-date">April 2023 — April 2025</div>
+        <div class="timeline-role">Junior Associate — Technology</div>
+        <div class="timeline-company">Arieotech Solutions Pvt. Ltd, Pune</div>
+        <div class="timeline-desc">
+          <ul>
+            <li>Developed and shipped full stack applications using .NET Core, React, Blazor, and SQL Server for enterprise clients in USA</li>
+            <li>Built dynamic UI components, JSON-driven form rendering, and underwriting tools that streamlined user workflows</li>
+            <li>Managed cloud deployments on Azure App Services with CI/CD pipelines through Azure DevOps</li>
+            <li>Addressed security vulnerabilities from penetration tests, ensuring enterprise-grade application security</li>
+            <li>Received TechStar Award for outstanding client feedback and consistent delivery excellence</li>
+          </ul>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-date">Oct 2022 — April 2023</div>
+        <div class="timeline-role">Associate Trainee</div>
+        <div class="timeline-company">Arieotech Solutions Pvt. Ltd, Pune</div>
+        <div class="timeline-desc">
+          <ul>
+            <li>Built foundation in full stack development with .NET Core, C#, React, Blazor, and SQL</li>
+            <li>Contributed to end-to-end application development from backend API design to frontend implementation</li>
+            <li>Focused on clean code practices, debugging, and seamless component integration</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="container">
+    <div class="section-label fade-in">Work</div>
+    <h2 class="section-title fade-in stagger-1">Featured Projects</h2>
+    <div class="projects-grid">
+      <div class="project-card fade-in stagger-2">
+        <div class="project-num">PROJECT 01</div>
+        <div class="project-name">LBMC Think — AI Chatbot Platform</div>
+        <div class="project-client">Client: LBMC (USA)</div>
+        <div class="project-desc">An AI-driven chatbot enabling employees to query organizational documents and receive contextual answers. Integrated Azure OpenAI with Semantic Kernel for natural language understanding, with documents stored in Azure Blob and indexed via vector embeddings for accurate retrieval.</div>
+        <div class="project-tech">
+          <span>React.js</span><span>Python</span><span>.NET Core</span><span>Azure OpenAI</span><span>LangChain</span><span>Vector DB</span><span>PostgreSQL</span><span>Semantic Kernel</span>
+        </div>
+      </div>
+      <div class="project-card fade-in stagger-3">
+        <div class="project-num">PROJECT 02</div>
+        <div class="project-name">LBMC Elevate</div>
+        <div class="project-client">Client: LBMC (USA)</div>
+        <div class="project-desc">A Blazor WebAssembly platform automating the tracking of communication program progress. Features include session attendance logging, speech delivery tracking, role-based task management, file uploads, progress dashboards, and automated reminders for administrators and users.</div>
+        <div class="project-tech">
+          <span>Blazor WASM</span><span>Radzen</span><span>.NET Core</span><span>SQL Server</span><span>Azure Functions</span><span>AWS Lambda</span><span>Azure DevOps</span>
+        </div>
+      </div>
+      <div class="project-card fade-in stagger-4">
+        <div class="project-num">PROJECT 03</div>
+        <div class="project-name">LBMC TheHUB — Intranet Portal</div>
+        <div class="project-client">Client: LBMC (USA)</div>
+        <div class="project-desc">A centralized intranet serving as the default landing page for all LBMC employees. Built for high availability on Azure App Services, it provides access to company resources, announcements, and internal communications with secure document access via Azure Blob Storage.</div>
+        <div class="project-tech">
+          <span>Blazor</span><span>Radzen</span><span>Azure App Services</span><span>Blob Storage</span><span>SQL Server</span><span>CI/CD</span>
+        </div>
+      </div>
+      <div class="project-card fade-in stagger-2">
+        <div class="project-num">PROJECT 04</div>
+        <div class="project-name">Insurance GIG — API Marketplace</div>
+        <div class="project-client">Client: Insurance GIG (USA)</div>
+        <div class="project-desc">An API marketplace connecting insurance technology buyers and sellers. Built a responsive UI for browsing, comparing, and purchasing insurance APIs, with serverless backend processing via Azure Functions and secure API management through Azure APIM and Active Directory.</div>
+        <div class="project-tech">
+          <span>React.js</span><span>Tailwind CSS</span><span>.NET Core</span><span>Azure Functions</span><span>Azure APIM</span><span>Azure AD</span>
+        </div>
+      </div>
+      <div class="project-card fade-in stagger-3">
+        <div class="project-num">PROJECT 05</div>
+        <div class="project-name">LBMC Compensation Events</div>
+        <div class="project-client">Client: LBMC (USA)</div>
+        <div class="project-desc">A web-based system automating compensation event tracking, approvals, documentation submission, and reporting. Delivered interactive dashboards for event statuses and claim history with self-service workflows for both administrators and team members.</div>
+        <div class="project-tech">
+          <span>Blazor</span><span>Radzen</span><span>SQL Server</span><span>Azure Portal</span><span>Azure DevOps</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AI SECTION -->
+<section id="ai">
+  <div class="ai-glow"></div>
+  <div class="container" style="position:relative;z-index:1;">
+    <div class="section-label fade-in" style="color:var(--purple);">Artificial Intelligence</div>
+    <h2 class="section-title fade-in stagger-1">AI Engineering & Innovation</h2>
+    <p class="fade-in stagger-2" style="color:var(--text-secondary);max-width:640px;margin-bottom:2.5rem;font-size:1.05rem;line-height:1.7;">I build AI-powered features that transform how enterprises interact with data — from intelligent document search to automated data extraction and conversational interfaces.</p>
+
+    <div class="ai-grid">
+      <div class="ai-card featured fade-in stagger-3">
+        <div class="ai-card-label">Featured AI Project</div>
+        <div class="ai-card-title">LBMC Think — Enterprise AI Chatbot</div>
+        <div class="ai-card-desc">Designed and built an AI-driven knowledge assistant that lets employees ask natural language questions and receive accurate answers from organizational documents. The system uses Azure OpenAI for language understanding, vector embeddings for semantic search, and Semantic Kernel for orchestration — reducing time to find information by making enterprise knowledge instantly accessible.</div>
+        <div class="ai-tech-list">
+          <span>Azure OpenAI</span><span>Semantic Kernel</span><span>LangChain</span><span>Vector DB</span><span>Python</span><span>React</span><span>.NET Core</span>
+        </div>
+      </div>
+
+      <div class="ai-card fade-in stagger-4">
+        <div class="ai-card-label">AI Capabilities</div>
+        <div class="ai-card-title">What I Build With AI</div>
+        <div class="ai-card-desc">I integrate AI capabilities into production applications to solve real business problems — not just prototypes.</div>
+        <div class="exploring-list">
+          <div class="exploring-item"><div class="exploring-dot"></div><span>Intelligent document search and retrieval using RAG architecture</span></div>
+          <div class="exploring-item"><div class="exploring-dot"></div><span>Natural language interfaces for enterprise data</span></div>
+          <div class="exploring-item"><div class="exploring-dot"></div><span>Automated data extraction with Azure Document Intelligence</span></div>
+          <div class="exploring-item"><div class="exploring-dot"></div><span>Semantic search with vector embeddings and similarity matching</span></div>
+          <div class="exploring-item"><div class="exploring-dot"></div><span>Role-based access control for AI-powered features</span></div>
+        </div>
+      </div>
+
+      <div class="ai-card fade-in stagger-5">
+        <div class="ai-card-label">Currently Exploring</div>
+        <div class="ai-card-title">Learning & Growing</div>
+        <div class="ai-card-desc">Continuously expanding my AI toolkit to stay at the cutting edge of enterprise AI development.</div>
+        <div class="exploring-list">
+          <div class="exploring-item"><div class="exploring-dot"></div><span>Advanced LLM orchestration and agentic AI workflows</span></div>
+          <div class="exploring-item"><div class="exploring-dot"></div><span>Multi-modal AI (text, image, document understanding)</span></div>
+          <div class="exploring-item"><div class="exploring-dot"></div><span>Scalable vector database architectures</span></div>
+          <div class="exploring-item"><div class="exploring-dot"></div><span>AI safety, prompt engineering, and guardrails</span></div>
+          <div class="exploring-item"><div class="exploring-dot"></div><span>Generative AI for enterprise automation</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:2rem;display:flex;gap:0.75rem;flex-wrap:wrap;" class="fade-in stagger-3">
+      <div style="padding:0.6rem 1.2rem;border-radius:8px;background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.15);display:flex;align-items:center;gap:0.5rem;">
+        <span style="color:var(--amber);font-size:0.85rem;font-weight:600;">🎓 AI-900</span>
+        <span style="font-size:0.78rem;color:var(--text-secondary);">Azure AI Fundamentals</span>
+      </div>
+      <div style="padding:0.6rem 1.2rem;border-radius:8px;background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.15);display:flex;align-items:center;gap:0.5rem;">
+        <span style="color:var(--amber);font-size:0.85rem;font-weight:600;">🎓 AI-102</span>
+        <span style="font-size:0.78rem;color:var(--text-secondary);">Azure AI Engineer Associate</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certs">
+  <div class="container">
+    <div class="section-label fade-in">Credentials</div>
+    <h2 class="section-title fade-in stagger-1">Certifications</h2>
+    <div class="certs-grid">
+      <div class="cert-card fade-in stagger-2">
+        <div class="cert-badge ms">MS</div>
+        <div><div class="cert-name">AI-900: Azure AI Fundamentals</div><div class="cert-issuer">Microsoft</div></div>
+      </div>
+      <div class="cert-card fade-in stagger-2">
+        <div class="cert-badge ms">MS</div>
+        <div><div class="cert-name">AI-102: Azure AI Engineer Associate</div><div class="cert-issuer">Microsoft</div></div>
+      </div>
+      <div class="cert-card fade-in stagger-3">
+        <div class="cert-badge udemy">UD</div>
+        <div><div class="cert-name">Generative AI using Azure OpenAI ChatGPT</div><div class="cert-issuer">Udemy</div></div>
+      </div>
+      <div class="cert-card fade-in stagger-3">
+        <div class="cert-badge udemy">UD</div>
+        <div><div class="cert-name">Blazor WebAssembly — Full Stack Development</div><div class="cert-issuer">Udemy</div></div>
+      </div>
+      <div class="cert-card fade-in stagger-4">
+        <div class="cert-badge udemy">UD</div>
+        <div><div class="cert-name">Real REST Web API using C#, SQL, Dapper</div><div class="cert-issuer">Udemy</div></div>
+      </div>
+      <div class="cert-card fade-in stagger-4">
+        <div class="cert-badge udemy">UD</div>
+        <div><div class="cert-name">Blazor Complete Guide [.NET 9] [E-Commerce]</div><div class="cert-issuer">Udemy</div></div>
+      </div>
+      <div class="cert-card fade-in stagger-2">
+        <div class="cert-badge coursera">CO</div>
+        <div><div class="cert-name">Azure DevOps Boards</div><div class="cert-issuer">Coursera</div></div>
+      </div>
+      <div class="cert-card fade-in stagger-3">
+        <div class="cert-badge coursera">CO</div>
+        <div><div class="cert-name">AWS S3 Basics</div><div class="cert-issuer">Coursera</div></div>
+      </div>
+      <div class="cert-card fade-in stagger-4">
+        <div class="cert-badge gl">GL</div>
+        <div><div class="cert-name">SQL for Data Science</div><div class="cert-issuer">Great Learning</div></div>
+      </div>
+      <div class="cert-card fade-in stagger-4">
+        <div class="cert-badge gl">GL</div>
+        <div><div class="cert-name">Java Programming</div><div class="cert-issuer">Great Learning</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="section-label fade-in">Connect</div>
+    <h2 class="section-title fade-in stagger-1">Let's build something<br>great together.</h2>
+    <p class="contact-desc fade-in stagger-2">I'm open to full-time opportunities, freelance projects, and collaborations — especially in full stack development and AI-powered applications.</p>
+    <div class="contact-links fade-in stagger-3">
+      <a href="mailto:shivamwagh4040@gmail.com" class="contact-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        shivamwagh4040@gmail.com
+      </a>
+      <a href="https://linkedin.com/in/shivam-wagh" target="_blank" class="contact-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        LinkedIn
+      </a>
+      <a href="https://github.com/Shivamwagh4040" target="_blank" class="contact-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65S8.93 17.38 9 18v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+        GitHub
+      </a>
+      <a href="tel:+917350494040" class="contact-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        +91 7350494040
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p>Designed & Built by Shivam Wagh · 2026</p>
+  </div>
+</footer>
+
+<script>
+// Nav scroll effect
+const nav = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 50);
+});
+
+// Mobile nav
+function toggleNav() {
+  document.getElementById('navLinks').classList.toggle('open');
+}
+function closeNav() {
+  document.getElementById('navLinks').classList.remove('open');
+}
+
+// Scroll animations
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
